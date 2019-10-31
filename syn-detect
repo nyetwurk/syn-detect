@@ -30,7 +30,7 @@ def main():
         usage()
         sys.exit(2)
     
-    what = 'SYNC_RECV'
+    what = 'SYN_RECV'
     thresh = 10
     loop = 0
     for o, a in opts:

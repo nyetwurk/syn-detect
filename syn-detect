@@ -19,6 +19,11 @@ proto_map = {
     (AF_INET6, SOCK_DGRAM): 'udp6',
 }
 
+class Host:
+    def __init__(self, net):
+        self.net=net
+        self.count=0
+
 def usage():
     print('{} [-he] [-t <thresh>] [-l <loop_every_seconds>]'.format(basename(sys.argv[0])), file=sys.stderr)
 
@@ -64,20 +69,24 @@ def main():
 
             net = '.'.join(c.raddr.ip.split('.')[:3])
             #print(c.raddr.ip, net)
-            if not net in nets:
-                nets[net]=0
             if not c.raddr.ip in hosts:
-                hosts[c.raddr.ip]=0
-            hosts[c.raddr.ip]+=1
-            nets[net]+=1
+                hosts[c.raddr.ip]=Host(net)
+            hosts[c.raddr.ip].count+=1
 
         for k, v in hosts.items():
-            if (v>=thresh):
-                print('HOST:', k, v, flush=True)
+            if (v.count<thresh):
+                # Did not meet thresh. Add to a /24 net
+                if not v.net in nets:
+                    nets[v.net]=0
+                nets[v.net]+=1
 
         for k, v in nets.items():
             if (v>=thresh):
                 print('NET:', k+'/24', v, flush=True)
+
+        for k, v in hosts.items():
+            if (v.count>=thresh):
+                print('HOST:', k, v.net+'/24', v.count, flush=True)
 
         if loop == 0:
             break;

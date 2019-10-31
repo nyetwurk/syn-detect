@@ -21,8 +21,10 @@ fail2ban:
 	fi
 
 adduser:
-	addgroup $(SERVICE_ACCOUNT) || true
-	adduser --system --no-create-home --disabled-password --disabled-login --ingroup $(SERVICE_ACCOUNT) $(SERVICE_ACCOUNT)
+	if ! id -u $(SERVICE_ACCOUNT) >/dev/null 2>&1; then \
+	    addgroup $(SERVICE_ACCOUNT) || true; \
+	    adduser --system --no-create-home --disabled-password --disabled-login --ingroup $(SERVICE_ACCOUNT) $(SERVICE_ACCOUNT); \
+	fi
 
 deluser:
 	deluser $(SERVICE_ACCOUNT) || true

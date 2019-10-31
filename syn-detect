@@ -80,13 +80,20 @@ def main():
                     nets[v.net]=0
                 nets[v.net]+=1
 
-        for k, v in nets.items():
-            if (v>=thresh):
-                print('NET:', k+'/24', v, flush=True)
+        for k, n in nets.items():
+            if (n>=thresh):
+                print('NET:', k+'/24', n, flush=True)
+            else:
+                print('net:', k+'/24', n, flush=True)
 
-        for k, v in hosts.items():
-            if (v.count>=thresh):
-                print('HOST:', k, v.net+'/24', v.count, flush=True)
+        for k, h in hosts.items():
+            if (h.count>=thresh):
+                if h.net in nets and nets[h.net] > thresh:
+                    print('host {} already in banned net:'.format(k), h.net+'/24', h.count, nets[h.net], flush=True)
+                else:
+                    print('HOST:', k, h.net+'/24', h.count, flush=True)
+#           else:
+#               print('host:', k, h.net+'/24', h.count, flush=True)
 
         if loop == 0:
             break;

@@ -1,6 +1,6 @@
 SERVICE_ACCOUNT:=syn-detect
 
-.PHONY: all install fail2ban adduser deluser
+.PHONY: all install fail2ban adduser deluser restart status
 
 all:
 	@echo one of install, fail2ban, adduser, deluser
@@ -29,3 +29,9 @@ adduser:
 deluser:
 	deluser $(SERVICE_ACCOUNT) || true
 	delgroup $(SERVICE_ACCOUNT)
+
+restart:
+	sudo service syn-detect restart
+
+status:
+	sudo fail2ban-client status syn-detect

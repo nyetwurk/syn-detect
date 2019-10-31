@@ -10,7 +10,6 @@ import psutil
 
 from os.path import basename
 from time import sleep
-from datetime import datetime
 
 AF_INET6 = getattr(socket, 'AF_INET6', object())
 proto_map = {
@@ -47,11 +46,13 @@ def main():
         else:
             assert False, "unhandled option"
 
+    print('STARTED', flush=True)
+
     while True:
+        #print('CHECKING', flush=True)
         hosts = {}
         nets = {}
 
-        now = datetime.now()
         for c in psutil.net_connections(kind='inet'):
 
             if proto_map[(c.family, c.type)] != 'tcp':
@@ -71,11 +72,11 @@ def main():
 
         for k, v in hosts.items():
             if (v>=thresh):
-                print(now, 'HOST:', k, v)
+                print('HOST:', k, v, flush=True)
 
         for k, v in nets.items():
             if (v>=thresh):
-                print(now, 'NET:', k+'/24', v)
+                print('NET:', k+'/24', v, flush=True)
 
         if loop == 0:
             break;

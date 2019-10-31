@@ -1,0 +1,14 @@
+# NTL
+[Unit]
+Description=Syn Flood Detection Service
+After=network.target network-online.target
+
+[Service]
+Type=simple
+User=syn-detect
+Group=syn-detect
+Restart=on-failure
+ExecStart=/usr/local/sbin/syn-detect -l 60
+
+[Install]
+WantedBy=default.target

@@ -73,27 +73,34 @@ def main():
                 hosts[c.raddr.ip]=Host(net)
             hosts[c.raddr.ip].count+=1
 
+        # Gather hosts into nets
         for k, v in hosts.items():
             if (v.count<thresh):
                 # Did not meet thresh. Add to a /24 net
                 if not v.net in nets:
                     nets[v.net]=0
-                nets[v.net]+=1
+                nets[v.net]+=v.count
 
+        # Print net hits
         for k, n in nets.items():
             if (n>=thresh):
-                print('NET:', k+'/24', n, flush=True)
+                # This net got > thresh hits in total, print net
+                # Note: fail2ban cannot ban a net
+                # https://github.com/fail2ban/fail2ban/issues/2559
+                print('NET: {} {}>={}'.format(k+'/24', n, thresh), flush=True)
             else:
-                print('net:', k+'/24', n, flush=True)
+                print('net: {} {}<{}'.format(k+'/24', n, thresh), flush=True)
 
+        # Print host hits
         for k, h in hosts.items():
             if (h.count>=thresh):
-                if h.net in nets and nets[h.net] > thresh:
-                    print('host {} already in banned net:'.format(k), h.net+'/24', h.count, nets[h.net], flush=True)
-                else:
-                    print('HOST:', k, h.net+'/24', h.count, flush=True)
+                # This host got > thresh hits in total, ban this host
+                print('HOST: {} {}>={} ({})'.format(k, h.count, thresh, h.net+'/24'), flush=True)
+            elif h.net in nets and nets[h.net]>=thresh:
+                # This host is a member of a net that got > thresh hits in total, ban it
+                print('HOST: {} {} ({} {}>={})'.format(k, h.count, h.net+'/24', nets[h.net], thresh), flush=True)
 #           else:
-#               print('host:', k, h.net+'/24', h.count, flush=True)
+#               print('HOST: {} {}>={} ({})'.format(k, h.count, thresh, h.net+'/24'), flush=True)
 
         if loop == 0:
             break;

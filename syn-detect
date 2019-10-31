@@ -46,7 +46,8 @@ def main():
         else:
             assert False, "unhandled option"
 
-    print('STARTED', flush=True)
+    if loop>0:
+        print('STARTED', flush=True)
 
     while True:
         #print('CHECKING', flush=True)

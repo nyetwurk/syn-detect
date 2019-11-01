@@ -1,6 +1,6 @@
 SERVICE_ACCOUNT:=syn-detect
 
-.PHONY: all install fail2ban adduser deluser restart status
+.PHONY: all install fail2ban adduser deluser restart status test
 
 all:
 	@echo one of install, fail2ban, adduser, deluser
@@ -35,3 +35,6 @@ restart:
 
 status:
 	sudo fail2ban-client status syn-detect
+
+test:
+	fail2ban-regex -r systemd-journal syn-detect --print-all-matched

@@ -88,8 +88,10 @@ def main():
                 # Note: fail2ban cannot ban a net
                 # https://github.com/fail2ban/fail2ban/issues/2559
                 print('NET: {} {}>={}'.format(k+'/24', n, thresh), flush=True)
-            else:
+            elif n>2:
                 print('net: {} {}<{}'.format(k+'/24', n, thresh), flush=True)
+#           else:
+#               print('net: {} {}<{}'.format(k+'/24', n, thresh), flush=True)
 
         # Print host hits
         for k, h in hosts.items():

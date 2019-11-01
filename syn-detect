@@ -34,7 +34,7 @@ def main():
         print(err, file=sys.stderr)
         usage()
         sys.exit(2)
-    
+
     what = 'SYN_RECV'
     thresh = 10
     loop = 0
@@ -100,7 +100,7 @@ def main():
                 # This host is a member of a net that got > thresh hits in total, ban it
                 print('HOST: {} {} ({} {}>={})'.format(k, h.count, h.net+'/24', nets[h.net], thresh), flush=True)
 #           else:
-#               print('HOST: {} {}>={} ({})'.format(k, h.count, thresh, h.net+'/24'), flush=True)
+#               print('host: {} {}<{} ({})'.format(k, h.count, thresh, h.net+'/24'), flush=True)
 
         if loop == 0:
             break;

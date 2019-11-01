@@ -84,7 +84,7 @@ def main():
         # Print net hits
         for k, n in nets.items():
             if n>=thresh:
-                # This net got > thresh hits in total, print net
+                # This net got > thresh hits in total, ban this network
                 print('NET: {} {}>={}'.format(k+'/24', n, thresh), flush=True)
             elif n>1:
                 print('net: {} {}<{}'.format(k+'/24', n, thresh), flush=True)

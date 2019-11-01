@@ -21,7 +21,7 @@ detects many many hosts from the same subnet.
 
 However, this has problems; if it is a very large distributed syn attack,
 it could end up with thousands of banned hosts, so currently a singleton
-is only banned if syn-detect sees a host with 2 attacks.
+is only banned if syn-detect sees a host with 3 or more attacks.
 
 Also, since syn-detect doesn't have historical data of what is already
 banned, it cannot associate singletons with previously banned subnets.

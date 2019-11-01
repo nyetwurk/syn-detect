@@ -88,7 +88,7 @@ def main():
                 # Note: fail2ban cannot ban a net
                 # https://github.com/fail2ban/fail2ban/issues/2559
                 print('NET: {} {}>={}'.format(k+'/24', n, thresh), flush=True)
-            elif n>2:
+            elif n>1:
                 print('net: {} {}<{}'.format(k+'/24', n, thresh), flush=True)
 #           else:
 #               print('net: {} {}<{}'.format(k+'/24', n, thresh), flush=True)
@@ -98,7 +98,7 @@ def main():
             if h.count>=thresh:
                 # This host got > thresh hits in total, ban this host
                 print('HOST: {} {}>={} ({})'.format(k, h.count, thresh, h.net+'/24'), flush=True)
-            elif h.count>2 and h.net in nets and nets[h.net]>=thresh:
+            elif h.count>1 and h.net in nets and nets[h.net]>=thresh:
                 # This host is a member of a net that got > thresh hits in total, ban it
                 print('HOST: {} {} ({} {}>={})'.format(k, h.count, h.net+'/24', nets[h.net], thresh), flush=True)
 #           else:
